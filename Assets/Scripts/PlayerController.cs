@@ -9,11 +9,11 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerInputActions inputActions;
 
-    [SerializeField]
-    private TimeManager _timeManager;
+   
+    private LevelManager _levelManager;
 
-    [SerializeField]
-    private GameUi _gameUi;
+    
+   // private GameUi _gameUi;
 
     [SerializeField]
     private Rigidbody2D _rb;
@@ -45,8 +45,8 @@ public class PlayerController : MonoBehaviour
     {
         _inputMovement = Vector2.zero;
         inputActions = new PlayerInputActions();
-        
 
+        GameManager.Instance.PlayerController = this;
     }
 
     private void OnEnable()
@@ -81,6 +81,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        _levelManager = GameManager.Instance.LevelManager;
         speed = minimumSpeed;
     }
 
@@ -129,23 +130,19 @@ public class PlayerController : MonoBehaviour
     }
 
 
-
-
-
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
       
         
-        if (collision.gameObject.tag=="Ground")
+        if (collision.gameObject.tag=="Ground" || collision.gameObject.tag=="Enemy")
         {
             
-            SceneManager.LoadScene("Level1");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }else if(collision.gameObject.tag == "End")
         {
-            _timeManager.StopTime();
+            _levelManager.LevelEnded();
 
-            _gameUi.OpenEndLevelPanel();
+           
            gameObject
                 .SetActive(false);
 

@@ -14,36 +14,36 @@ public class GameUi : MonoBehaviour
     private TextMeshProUGUI currentTimeEndLevelText;
 
     [SerializeField]
-    private TimeManager _timeManager;
-
-    private bool _updateTime;
-
-    [SerializeField]
     private GameObject _endLevelPanel;
+
+    private string currentTimeString;
+
+
+    private void Awake()
+    {
+        GameManager.Instance.GameUi = this;
+    }
 
     void Start()
     {
-        _updateTime = true;
+        currentTimeString = "0.00";
     }
 
 
     public void OpenEndLevelPanel()
     {
-        _updateTime = false;
         currentTimeText.gameObject.SetActive(false);
 
-        currentTimeEndLevelText.text= _timeManager.CurrentTime.ToString("0.00", CultureInfo.InvariantCulture);
+        currentTimeEndLevelText.text = currentTimeString;
 
         _endLevelPanel.SetActive(true);
 
     }
 
-    void Update()
+    public void UpdateTimeText(float time)
     {
-        if (_updateTime)
-        {
-            currentTimeText.text = _timeManager.CurrentTime.ToString("0.00", CultureInfo.InvariantCulture);
-        }
-
+        currentTimeString = time.ToString("0.00", CultureInfo.InvariantCulture);
+        currentTimeText.text = currentTimeString;
     }
+
 }

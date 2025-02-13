@@ -5,14 +5,18 @@ using UnityEngine;
 public class TimeFlower : MonoBehaviour
 {
 
-    [SerializeField]
-    private TimeManager timeManager;
+    private LevelManager levelManager;
+
+    private void Start()
+    {
+        levelManager = GameManager.Instance.LevelManager;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            timeManager.addPauseTime(2);
+            levelManager.addPauseTime(2);
             gameObject.SetActive(false);
             
         }
