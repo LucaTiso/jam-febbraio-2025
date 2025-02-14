@@ -13,13 +13,12 @@ public class PlayerController : MonoBehaviour
     private LevelManager _levelManager;
 
     
-   // private GameUi _gameUi;
+   
 
     [SerializeField]
     private Rigidbody2D _rb;
 
    
-
     private Vector2 _inputMovement;
 
 
@@ -36,9 +35,13 @@ public class PlayerController : MonoBehaviour
     private float baseAcceleration = 2f;
 
 
-    private float speed;
+    private float speed=5;
 
-    
+    private float _verticalAcceleration = 20f;
+
+    private float _verticalDeceleration = 10f;
+
+    private float _maxVerticalSpeed = 20f;
    
 
     private void Awake()
@@ -89,20 +92,54 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
 
-        calculateSpeed();
+        float tmpVerticalSpeed = _rb.velocity.y;
 
-        _rb.velocity = _rb.transform.up * speed;
+        if (_inputMovement.y > 0)
+        {
+            tmpVerticalSpeed += _verticalAcceleration*Time.fixedDeltaTime;
 
-        int rotationDirection = _inputMovement.x > 0 ? -1 : _inputMovement.x < 0 ? 1 : 0;
-
-        float rotationAmount = turningSpeed * rotationDirection * Time.fixedDeltaTime;
-
-        _rb.MoveRotation(_rb.rotation + rotationAmount);
+            if (tmpVerticalSpeed > _maxVerticalSpeed)
+            {
+                tmpVerticalSpeed = _maxVerticalSpeed;
 
 
-        //Debug.Log(Mathf.RoundToInt(_rb.transform.eulerAngles.z));
+            }
+        }else if(_inputMovement.y < 0)
+        {
+            tmpVerticalSpeed -= _verticalAcceleration * Time.fixedDeltaTime;
+
+            if (tmpVerticalSpeed < -_maxVerticalSpeed)
+            {
+                tmpVerticalSpeed = -_maxVerticalSpeed;
+
+
+            }
+        }
+
+
+        _rb.velocity = new Vector2(speed, tmpVerticalSpeed);
+
+        RotateByVerticalSpeed(tmpVerticalSpeed, speed);
 
     }
+
+
+    private void RotateByVerticalSpeed(float a,float b)
+    {
+
+        int direction = a >= 0 ? 1 : -1;
+
+
+        float c=  Mathf.Sqrt(a*a+ b*b);
+        float cosAlfa = b / c;
+        float alfa = Mathf.Acos(cosAlfa);
+        float angleDegrees = alfa * Mathf.Rad2Deg* direction-90f;
+
+        Debug.Log(angleDegrees);
+
+        _rb.transform.rotation = Quaternion.Euler(0, 0, angleDegrees);
+    }
+
 
     private void calculateSpeed()
     {
@@ -147,6 +184,20 @@ public class PlayerController : MonoBehaviour
                 .SetActive(false);
 
         }
+    }
+
+    private void Movement1()
+    {
+        calculateSpeed();
+
+        _rb.velocity = _rb.transform.up * speed;
+
+        int rotationDirection = _inputMovement.x > 0 ? -1 : _inputMovement.x < 0 ? 1 : 0;
+
+        float rotationAmount = turningSpeed * rotationDirection * Time.fixedDeltaTime;
+
+        _rb.MoveRotation(_rb.rotation + rotationAmount);
+
     }
 
 }
