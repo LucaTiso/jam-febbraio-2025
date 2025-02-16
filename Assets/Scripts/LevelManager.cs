@@ -1,59 +1,92 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private float _currentTime;
+    private float _currentPercentage;
 
     private bool stopped = false;
 
-    private float pauseTime;
-
     private GameUi _gameUi;
+
+    [SerializeField]
+    private Transform endObj;
+
+    private PlayerController _playerController;
+
+    private float totalLength;
+
+    private float startingPoint;
+
+    private int _flowerNum = 0;
 
 
     private void Awake()
     {
-        GameManager.Instance.LevelManager = this;
+       // GameManager.Instance.LevelManager = this;
     }
 
     void Start()
     {
-        _currentTime = 0;
-        _gameUi = GameManager.Instance.GameUi;
+        _currentPercentage = 0;
+        _gameUi = FindAnyObjectByType<GameUi>();
+
+        _playerController=FindObjectOfType<PlayerController>();
+
+
+        totalLength = endObj.position.x - _playerController.transform.position.x;
+        startingPoint = _playerController.transform.position.x;
+
     }
 
     void Update()
     {
-        if (pauseTime > 0)
-        {
-            pauseTime -= Time.deltaTime;
-        }
-        else
-        {
+      
             if (!stopped)
             {
-                _currentTime += Time.deltaTime;
-                _gameUi.UpdateTimeText(_currentTime);
+            float currentDistance = _playerController.transform.position.x - startingPoint;
+
+            _currentPercentage = (currentDistance / totalLength) *100;
+
+               // _currentTime += Time.deltaTime;
+
+               _gameUi.UpdatePercentageText(_currentPercentage);
             }
 
-        }
+        
 
 
     }
+
+    public void AddFlower()
+    {
+        _flowerNum++;
+    }
+
     public void LevelEnded()
     {
         stopped = true;
-        _gameUi.UpdateTimeText(_currentTime);
+        _gameUi.UpdatePercentageText(100);
         _gameUi.OpenEndLevelPanel();
     }
 
-    public void addPauseTime(float toAdd)
+    
+    public void RestartLevel()
     {
-        pauseTime += toAdd;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 
-    public float CurrentTime { get => _currentTime; }
+    public void ToMainMenu()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+
+
+    public int  FlowerNum
+    {
+        get => _flowerNum;
+    }
 }

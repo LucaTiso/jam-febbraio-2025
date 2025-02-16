@@ -13,8 +13,6 @@ public class PlayerController : MonoBehaviour
     private LevelManager _levelManager;
 
     
-   
-
     [SerializeField]
     private Rigidbody2D _rb;
 
@@ -23,20 +21,9 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField]
-    private float minimumSpeed = 3f;
-
-    [SerializeField]
-    private float turningSpeed = 100f;
-
-    [SerializeField]
-    private float maxBaseSpeed = 6f;
-
-    [SerializeField]
-    private float baseAcceleration = 2f;
-
-
     private float speed=5;
 
+    [SerializeField]
     private float _verticalAcceleration = 20f;
 
     private float _verticalDeceleration = 10f;
@@ -49,7 +36,7 @@ public class PlayerController : MonoBehaviour
         _inputMovement = Vector2.zero;
         inputActions = new PlayerInputActions();
 
-        GameManager.Instance.PlayerController = this;
+        //GameManager.Instance.PlayerController = this;
     }
 
     private void OnEnable()
@@ -84,8 +71,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _levelManager = GameManager.Instance.LevelManager;
-        speed = minimumSpeed;
+       // _levelManager = GameManager.Instance.LevelManager;
+       _levelManager = FindAnyObjectByType<LevelManager>();
+       
     }
 
     // Update is called once per frame
@@ -135,35 +123,7 @@ public class PlayerController : MonoBehaviour
         float alfa = Mathf.Acos(cosAlfa);
         float angleDegrees = alfa * Mathf.Rad2Deg* direction-90f;
 
-        Debug.Log(angleDegrees);
-
         _rb.transform.rotation = Quaternion.Euler(0, 0, angleDegrees);
-    }
-
-
-    private void calculateSpeed()
-    {
-        if (_inputMovement.y > 0)
-        {
-            speed += baseAcceleration * Time.fixedDeltaTime;
-
-            if(speed > maxBaseSpeed)
-            {
-                speed = maxBaseSpeed;
-            }
-        }
-        else
-        {
-            speed -= baseAcceleration * Time.fixedDeltaTime;
-
-
-            if(speed < minimumSpeed)
-            {
-                speed = minimumSpeed;
-            }
-
-        }
-        
     }
 
 
@@ -183,21 +143,11 @@ public class PlayerController : MonoBehaviour
            gameObject
                 .SetActive(false);
 
+        }else if (collision.gameObject.tag == "Flower")
+        {
+            collision.gameObject.SetActive(false);
         }
     }
 
-    private void Movement1()
-    {
-        calculateSpeed();
-
-        _rb.velocity = _rb.transform.up * speed;
-
-        int rotationDirection = _inputMovement.x > 0 ? -1 : _inputMovement.x < 0 ? 1 : 0;
-
-        float rotationAmount = turningSpeed * rotationDirection * Time.fixedDeltaTime;
-
-        _rb.MoveRotation(_rb.rotation + rotationAmount);
-
-    }
 
 }

@@ -8,42 +8,61 @@ using UnityEngine;
 public class GameUi : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI currentTimeText;
+    private TextMeshProUGUI _currentPercentageText;
 
     [SerializeField]
-    private TextMeshProUGUI currentTimeEndLevelText;
+    private TextMeshProUGUI _flowerNumText;
+
 
     [SerializeField]
     private GameObject _endLevelPanel;
 
-    private string currentTimeString;
+    private string _currentPercentageString;
+
+    private LevelManager _levelManager;
 
 
     private void Awake()
     {
-        GameManager.Instance.GameUi = this;
+        //GameManager.Instance.GameUi = this;
     }
 
     void Start()
     {
-        currentTimeString = "0.00";
+        _currentPercentageString = "0 %";
+        _levelManager=FindAnyObjectByType<LevelManager>();
     }
 
 
     public void OpenEndLevelPanel()
     {
-        currentTimeText.gameObject.SetActive(false);
+        _currentPercentageText.gameObject.SetActive(false);
 
-        currentTimeEndLevelText.text = currentTimeString;
+        int numFlowers = _levelManager.FlowerNum;
+
+        _flowerNumText.text = numFlowers.ToString();
+
 
         _endLevelPanel.SetActive(true);
 
     }
 
-    public void UpdateTimeText(float time)
+
+    public void ToMenu()
     {
-        currentTimeString = time.ToString("0.00", CultureInfo.InvariantCulture);
-        currentTimeText.text = currentTimeString;
+        _levelManager.ToMainMenu();
+    }
+
+    public void Restart()
+    {
+        Debug.Log("restart");
+        _levelManager.RestartLevel();
+    }
+
+    public void UpdatePercentageText(float percentage)
+    {
+        _currentPercentageString = Mathf.RoundToInt(percentage).ToString()+" %";
+        _currentPercentageText.text = _currentPercentageString;
     }
 
 }

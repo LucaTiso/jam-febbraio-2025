@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 5527462113728134687}
   - component: {fileID: 935412082498464686}
   m_Layer: 0
-  m_Name: TimeFlower
+  m_Name: Flower
   m_TagString: Flower
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

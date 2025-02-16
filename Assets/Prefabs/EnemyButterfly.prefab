@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9187034984935976917}
-  - component: {fileID: 7443846100139497307}
   - component: {fileID: -6788337278006267782}
   - component: {fileID: 8716778224873407182}
+  - component: {fileID: 8188968798588654359}
   m_Layer: 0
   m_Name: EnemyButterfly
   m_TagString: Enemy
@@ -35,19 +35,6 @@ Transform:
   - {fileID: 9174428108361697977}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7443846100139497307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 382163947514872567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 063200bd9326e0244b4f8d29ce4fa187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rb: {fileID: 8716778224873407182}
 --- !u!58 &-6788337278006267782
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -91,7 +78,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 382163947514872567}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -110,6 +97,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8188968798588654359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382163947514872567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 143d26999c386f5478102306998d02ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 8716778224873407182}
 --- !u!1 &4058984434506504017
 GameObject:
   m_ObjectHideFlags: 0
