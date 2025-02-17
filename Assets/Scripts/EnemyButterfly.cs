@@ -8,61 +8,79 @@ public class EnemyButterfly : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rb;
 
-    private float _speed=15;
+    private float _speed;
 
-    private float _rotationSpeed=50;
+    private float _rotationSpeed;
 
-    private float _changeDirectionUpperLimit;
+    private float _changeDirectionAngle;
 
-    private float _changeDirectionLowerLimit;
+    private int _direction;
 
-    private float _changeDirectionAmount=3f;
+    private float _maxAngle;
 
-    private float _direction = 1;
+    private float _minAngle;
 
+
+    private GameObject _player;
 
     void Start()
     {
-        _changeDirectionLowerLimit = transform.position.y - _changeDirectionAmount;
-        _changeDirectionUpperLimit = transform.position.y + _changeDirectionAmount;
+       
     }
-
     
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-
-       // Vector2 newPosition = new Vector2(transform.position.x-_speed*Time.fixedDeltaTime, transform.position.y);
 
         Vector2 leftDirection = transform.up;
 
         _rb.MovePosition(_rb.position+leftDirection*_speed*Time.fixedDeltaTime);
 
-        Debug.Log(_rb.transform.rotation.eulerAngles.z);
-
-        if (_rb.transform.rotation.eulerAngles.z>120)
+        if (_rb.transform.rotation.eulerAngles.z> _maxAngle)
         {
             _direction = -1;
-        }else if(_rb.transform.rotation.eulerAngles.z<60)
+        }else if(_rb.transform.rotation.eulerAngles.z<_minAngle)
         {
             _direction = 1;
         }
 
-
-            float rotationAmount = _rotationSpeed * _direction * Time.fixedDeltaTime;
-
-
-       
-
+        float rotationAmount = _rotationSpeed * _direction * Time.fixedDeltaTime;
 
         _rb.MoveRotation(_rb.rotation + rotationAmount);
+
+
+        InactivationCheck();
     }
 
 
-    public void Activate(float speed,float rotationSpeed)
+    public void Activate(float speed,float rotationSpeed,float changeDirectionAngle,int direction,float PosX,float PosY,GameObject player)
     {
+        gameObject.SetActive(true);
         _speed = speed;
         _rotationSpeed = rotationSpeed;
+        _changeDirectionAngle = changeDirectionAngle;
+        _direction = direction;
+
+        _rb.transform.position=new Vector2(PosX, PosY);
+
+        _minAngle = _rb.transform.rotation.eulerAngles.z - _changeDirectionAngle;
+        _maxAngle = _rb.transform.rotation.eulerAngles.z + _changeDirectionAngle;
+
+        _player = player;
     }
+
+
+    private void InactivationCheck()
+    {
+        if( _player.transform.position.x - _rb.transform.position.x > 10f)
+        {
+            gameObject.SetActive(false);
+
+            //todo put in pool
+
+        }
+
+    }
+
+    
 }

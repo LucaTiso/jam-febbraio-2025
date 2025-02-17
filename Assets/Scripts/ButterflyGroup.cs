@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class ButterflyGroup : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private List<EnemyButterfly> enemyButterflyList;
+
+    [SerializeField]
+    private List<ButterflyInfo> butterflyInfo;
+
     void Start()
     {
         
@@ -23,6 +28,22 @@ public class ButterflyGroup : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
 
+            for(int i=0; i< butterflyInfo.Count; i++)
+            {
+                ButterflyInfo info= butterflyInfo[i];
+
+                EnemyButterfly butterfly = enemyButterflyList[i];
+
+                StartCoroutine(ActivateButterfly(info, butterfly, collision.gameObject));
+            }
+
         }
+    }
+
+    IEnumerator ActivateButterfly(ButterflyInfo info, EnemyButterfly butterfly,GameObject player)
+    {
+        yield return new WaitForSeconds(info.activationDelay);
+        butterfly.Activate(info.speed, info.rotationSpeed, info.changeDirectionAngle, info.direction, info.posX, info.posY, player);
+
     }
 }

@@ -14,11 +14,11 @@ GameObject:
   - component: {fileID: 8188968798588654359}
   m_Layer: 0
   m_Name: EnemyButterfly
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9187034984935976917
 Transform:
   m_ObjectHideFlags: 0
