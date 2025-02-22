@@ -8,16 +8,31 @@ public class EnemyButterfly : MonoBehaviour
     [SerializeField]
     private Rigidbody2D _rb;
 
+    [SerializeField]
     private float _speed;
 
+    [SerializeField]
     private float _rotationSpeed;
 
+    [SerializeField]
     private float _changeDirectionAngle;
 
+    [SerializeField]
     private int _direction;
 
+    [SerializeField]
+    private float _posX;
+
+    [SerializeField]
+    private float _posY;
+
+    [SerializeField]
+    private float _delay;
+
+   
     private float _maxAngle;
 
+    
     private float _minAngle;
 
 
@@ -53,15 +68,11 @@ public class EnemyButterfly : MonoBehaviour
     }
 
 
-    public void Activate(float speed,float rotationSpeed,float changeDirectionAngle,int direction,float PosX,float PosY,GameObject player)
+    public void Activate(GameObject player)
     {
         gameObject.SetActive(true);
-        _speed = speed;
-        _rotationSpeed = rotationSpeed;
-        _changeDirectionAngle = changeDirectionAngle;
-        _direction = direction;
-
-        _rb.transform.position=new Vector2(PosX, PosY);
+       
+        _rb.transform.position=new Vector2(_posX, _posY);
 
         _minAngle = _rb.transform.rotation.eulerAngles.z - _changeDirectionAngle;
         _maxAngle = _rb.transform.rotation.eulerAngles.z + _changeDirectionAngle;
@@ -80,6 +91,12 @@ public class EnemyButterfly : MonoBehaviour
 
         }
 
+    }
+
+
+    public float Delay
+    {
+        get => _delay; set => _delay = value;
     }
 
     

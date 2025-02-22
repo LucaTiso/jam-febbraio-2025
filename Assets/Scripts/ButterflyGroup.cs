@@ -7,9 +7,7 @@ public class ButterflyGroup : MonoBehaviour
     [SerializeField]
     private List<EnemyButterfly> enemyButterflyList;
 
-    [SerializeField]
-    private List<ButterflyInfo> butterflyInfo;
-
+  
     void Start()
     {
         
@@ -28,22 +26,20 @@ public class ButterflyGroup : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
 
-            for(int i=0; i< butterflyInfo.Count; i++)
+            foreach(EnemyButterfly butterfly in enemyButterflyList)
             {
-                ButterflyInfo info= butterflyInfo[i];
+              
 
-                EnemyButterfly butterfly = enemyButterflyList[i];
-
-                StartCoroutine(ActivateButterfly(info, butterfly, collision.gameObject));
+                StartCoroutine(ActivateButterfly(butterfly,collision.gameObject));
             }
 
         }
     }
 
-    IEnumerator ActivateButterfly(ButterflyInfo info, EnemyButterfly butterfly,GameObject player)
+    IEnumerator ActivateButterfly(EnemyButterfly butterfly,GameObject player)
     {
-        yield return new WaitForSeconds(info.activationDelay);
-        butterfly.Activate(info.speed, info.rotationSpeed, info.changeDirectionAngle, info.direction, info.posX, info.posY, player);
+        yield return new WaitForSeconds(butterfly.Delay);
+        butterfly.Activate( player);
 
     }
 }

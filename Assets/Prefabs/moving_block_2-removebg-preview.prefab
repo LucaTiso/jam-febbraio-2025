@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1631332034626804819
 Transform:
   m_ObjectHideFlags: 0
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -291843133
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 90486d4308b58b84ea14398003899f3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -130,7 +130,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 7.8125, y: 7.8125}
+  m_Size: {x: 7.5, y: 7.5}
   m_EdgeRadius: 0
 --- !u!50 &4037079688374879384
 Rigidbody2D:
@@ -171,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dba91bfb7bef0468fccaab2c96db5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _distance: 16
+  _distance: 8
   _speed: 30
-  _direction: {x: 1, y: 0}
+  _direction: {x: 0, y: 1}
   _rb: {fileID: 4037079688374879384}
-  _activationDelay: 0
+  _activationDelay: 3
