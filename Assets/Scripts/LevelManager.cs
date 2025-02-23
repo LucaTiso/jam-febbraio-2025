@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +24,9 @@ public class LevelManager : MonoBehaviour
 
     private int _flowerNum = 0;
 
+    private int _levelNum;
 
+   
     private void Awake()
     {
        // GameManager.Instance.LevelManager = this;
@@ -39,6 +43,10 @@ public class LevelManager : MonoBehaviour
         totalLength = endObj.position.x - _playerController.transform.position.x;
         startingPoint = _playerController.transform.position.x;
 
+        _levelNum = int.Parse(SceneManager.GetActiveScene().name.Replace("Level", ""));
+
+
+
     }
 
     void Update()
@@ -50,7 +58,7 @@ public class LevelManager : MonoBehaviour
 
             _currentPercentage = (currentDistance / totalLength) *100;
 
-               // _currentTime += Time.deltaTime;
+              
 
                _gameUi.UpdatePercentageText(_currentPercentage);
             }
@@ -67,9 +75,93 @@ public class LevelManager : MonoBehaviour
 
     public void LevelEnded()
     {
-        stopped = true;
-        _gameUi.UpdatePercentageText(100);
-        _gameUi.OpenEndLevelPanel();
+
+        if (!GameManager.Instance.PracticeMode)
+        {
+            stopped = true;
+            _gameUi.UpdatePercentageText(100);
+
+
+            GameData gameData = GameManager.Instance.SaveManager.GameData;
+
+            LevelData levelData = gameData.LevelData[_levelNum - 1];
+
+            if (levelData == null)
+            {
+                levelData = new LevelData();
+            }
+
+            levelData.BestPercentage = 100;
+            levelData.NumFlowers = 0;
+
+            gameData.LevelData[_levelNum - 1] = levelData;
+
+            GameManager.Instance.SaveManager.DoSave(gameData);
+
+            _gameUi.OpenEndLevelPanel(false);
+        }
+        else
+        {
+            _gameUi.OpenEndLevelPanel(true);
+        }
+
+        GameManager.Instance.CurrentCheckpoint = new Vector2(0, 0);
+
+
+    }
+
+    public void HandleDeath()
+    {
+
+        if(!GameManager.Instance.PracticeMode)
+        {
+
+            stopped = true;
+
+            bool toSave = false;
+
+            GameData gameData = GameManager.Instance.SaveManager.GameData;
+
+            Debug.Log("Level index : " + (_levelNum - 1));
+
+            LevelData levelData = gameData.LevelData[_levelNum - 1];
+
+
+
+            if (levelData == null)
+            {
+                toSave = true;
+                levelData = new LevelData();
+                levelData.BestPercentage = 0;
+                levelData.NumFlowers = 0;
+
+            }
+
+            if (levelData.BestPercentage < (int)_currentPercentage)
+            {
+                toSave = true;
+                levelData.BestPercentage = (int)_currentPercentage;
+
+            }
+
+            if (toSave)
+            {
+                gameData.LevelData[_levelNum - 1] = levelData;
+
+                GameManager.Instance.SaveManager.DoSave(gameData);
+            }
+
+
+            _gameUi.UpdatePercentageText(_currentPercentage);
+            _gameUi.OpenDeathPanel(levelData.BestPercentage);
+
+        }
+        else
+        {
+            _gameUi.OpenDeathPanel();
+        }
+
+        
     }
 
     

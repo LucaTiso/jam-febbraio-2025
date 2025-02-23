@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class ButterflyCircleGroup : MonoBehaviour
 {
 
     [SerializeField]
-    private List<ButterflyCircleMovement> enemyButterflyList;
+    private List<Rigidbody2D> _enemyButterflyRbList;
 
     [SerializeField]
     private Rigidbody2D _rb;
@@ -15,52 +16,45 @@ public class ButterflyCircleGroup : MonoBehaviour
 
     private float _distanceFromCentre=9f;
 
-
-    void Start()
-    {
-        ButterflyCircleMovement butterfly1 = enemyButterflyList[0];
-
-        butterfly1.Activate(transform.position.x + _distanceFromCentre, transform.position.y + 0, 0);
+    private GameObject _player;
 
 
-        ButterflyCircleMovement butterfly2 = enemyButterflyList[1];
-
-        butterfly2.Activate(transform.position.x - _distanceFromCentre, transform.position.y + 0, 180f);
-
-        ButterflyCircleMovement butterfly3 = enemyButterflyList[2];
-
-        butterfly3.Activate(transform.position.x, transform.position.y + _distanceFromCentre, 90f);
-
-        ButterflyCircleMovement butterfly4 = enemyButterflyList[3];
-
-        butterfly4.Activate(transform.position.x , transform.position.y - _distanceFromCentre, 270f);
-    }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         _rb.MoveRotation(_rb.rotation+ _rotationSpeed*Time.fixedDeltaTime);
+
+        if (_player.transform.position.x - transform.position.x > 15f)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    public void Activate(GameObject player)
     {
+        _player = player;
 
-        if (collision.gameObject.tag == "Player")
-        {
+        Rigidbody2D butterfly1 = _enemyButterflyRbList[0];
+        butterfly1.transform.position = new Vector2(transform.position.x + _distanceFromCentre, transform.position.y);
 
-            ButterflyCircleMovement butterfly1 = enemyButterflyList[0];
-
-            butterfly1.Activate(transform.position.x+3f, transform.position.y+0, 0);
+        butterfly1.MoveRotation(butterfly1.rotation + 0);
 
 
-            ButterflyCircleMovement butterfly2 = enemyButterflyList[1];
+        Rigidbody2D butterfly2 = _enemyButterflyRbList[1];
+        butterfly2.transform.position = new Vector2(transform.position.x - _distanceFromCentre, transform.position.y);
 
-            butterfly2.Activate(transform.position.x - 3f, transform.position.y+ 0,180f);
+        butterfly2.MoveRotation(butterfly1.rotation + 180f);
 
-            
+        Rigidbody2D butterfly3 = _enemyButterflyRbList[2];
+        butterfly3.transform.position = new Vector2(transform.position.x, transform.position.y + _distanceFromCentre);
 
-        }
+        butterfly3.MoveRotation(butterfly1.rotation + 90f);
 
+        Rigidbody2D butterfly4 = _enemyButterflyRbList[3];
+        butterfly4.transform.position = new Vector2(transform.position.x, transform.position.y - _distanceFromCentre);
+
+        butterfly4.MoveRotation(butterfly1.rotation + 270f);
     }
 
 }

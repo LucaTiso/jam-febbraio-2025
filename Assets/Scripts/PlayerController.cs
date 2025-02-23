@@ -29,12 +29,20 @@ public class PlayerController : MonoBehaviour
     private float _verticalDeceleration = 10f;
 
     private float _maxVerticalSpeed = 20f;
+
+    private bool _alive;
+
+    [SerializeField]
+    private SpriteRenderer _spriteRenderer;
+
+    
    
 
     private void Awake()
     {
         _inputMovement = Vector2.zero;
         inputActions = new PlayerInputActions();
+        _alive = true;
 
         //GameManager.Instance.PlayerController = this;
     }
@@ -73,41 +81,52 @@ public class PlayerController : MonoBehaviour
     {
        // _levelManager = GameManager.Instance.LevelManager;
        _levelManager = FindAnyObjectByType<LevelManager>();
-       
+
+        if (GameManager.Instance.CurrentCheckpoint != null)
+        {
+            Vector2 currentCheckpoint = GameManager.Instance.CurrentCheckpoint;
+
+            _rb.transform.position = new Vector2(currentCheckpoint.x, currentCheckpoint.y);
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        float tmpVerticalSpeed = _rb.velocity.y;
-
-        if (_inputMovement.y > 0)
+        if (_alive)
         {
-            tmpVerticalSpeed += _verticalAcceleration*Time.fixedDeltaTime;
 
-            if (tmpVerticalSpeed > _maxVerticalSpeed)
+            float tmpVerticalSpeed = _rb.velocity.y;
+
+            if (_inputMovement.y > 0)
             {
-                tmpVerticalSpeed = _maxVerticalSpeed;
+                tmpVerticalSpeed += _verticalAcceleration * Time.fixedDeltaTime;
+
+                if (tmpVerticalSpeed > _maxVerticalSpeed)
+                {
+                    tmpVerticalSpeed = _maxVerticalSpeed;
 
 
+                }
             }
-        }else if(_inputMovement.y < 0)
-        {
-            tmpVerticalSpeed -= _verticalAcceleration * Time.fixedDeltaTime;
-
-            if (tmpVerticalSpeed < -_maxVerticalSpeed)
+            else if (_inputMovement.y < 0)
             {
-                tmpVerticalSpeed = -_maxVerticalSpeed;
+                tmpVerticalSpeed -= _verticalAcceleration * Time.fixedDeltaTime;
+
+                if (tmpVerticalSpeed < -_maxVerticalSpeed)
+                {
+                    tmpVerticalSpeed = -_maxVerticalSpeed;
 
 
+                }
             }
+
+
+            _rb.velocity = new Vector2(speed, tmpVerticalSpeed);
+
+            RotateByVerticalSpeed(tmpVerticalSpeed, speed);
+
         }
-
-
-        _rb.velocity = new Vector2(speed, tmpVerticalSpeed);
-
-        RotateByVerticalSpeed(tmpVerticalSpeed, speed);
 
     }
 
@@ -133,8 +152,11 @@ public class PlayerController : MonoBehaviour
         
         if (collision.gameObject.tag=="Ground" || collision.gameObject.tag=="Enemy")
         {
-            
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            _alive = false;
+            _spriteRenderer.enabled = false;
+            _rb.velocity=new Vector2(0,0);
+            _levelManager.HandleDeath();
+
         }else if(collision.gameObject.tag == "End")
         {
             _levelManager.LevelEnded();

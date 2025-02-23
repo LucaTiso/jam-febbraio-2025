@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,13 @@ public class GameManager : MonoBehaviour
 
     private PlayerController _playerController;
 
+    private SaveManager _saveManager;
+
+    private Vector2 _currentCheckPoint;
+
+    private bool _practiceMode;
+
+   
     private void Awake()
     {
 
@@ -22,9 +30,11 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-           // _saveManager = new SaveManager(Application.persistentDataPath);
+            _saveManager = new SaveManager(Application.persistentDataPath);
 
-           // _saveManager.DoLoad();
+            _saveManager.DoLoad();
+
+            _practiceMode = false;
 
         }
         else
@@ -53,4 +63,11 @@ public class GameManager : MonoBehaviour
         get => _playerController;
         set => _playerController = value;
     }
+    public SaveManager SaveManager { get { return _saveManager; } }
+
+
+
+    public Vector2 CurrentCheckpoint { get { return _currentCheckPoint; } set { _currentCheckPoint = value; } }
+
+    public bool PracticeMode { get { return _practiceMode; } set { _practiceMode = value; } }
 }
