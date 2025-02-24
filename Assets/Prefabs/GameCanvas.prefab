@@ -521,10 +521,10 @@ MonoBehaviour:
   _currentPercentageText: {fileID: 6829508066040162232}
   _flowerNumText: {fileID: 2153447977557142432}
   _endLevelPanel: {fileID: 4668541135349292808}
-  _pauseButton: {fileID: 0}
   _deathPanel: {fileID: 4632233397527410575}
   _bestPercentage: {fileID: 3501170293059630465}
   _deathPercentage: {fileID: 6116076340756352512}
+  _endLevelTitle: {fileID: 8799115497130624177}
 --- !u!1 &2713396497136863258
 GameObject:
   m_ObjectHideFlags: 0

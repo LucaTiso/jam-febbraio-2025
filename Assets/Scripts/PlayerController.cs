@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         inputActions = new PlayerInputActions();
         _alive = true;
 
-        //GameManager.Instance.PlayerController = this;
+        GameManager.Instance.PlayerController = this;
     }
 
     private void OnEnable()
@@ -79,10 +79,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-       // _levelManager = GameManager.Instance.LevelManager;
-       _levelManager = FindAnyObjectByType<LevelManager>();
-
-        if (GameManager.Instance.CurrentCheckpoint != null)
+        _levelManager = GameManager.Instance.LevelManager;
+     
+        if (GameManager.Instance.PracticeMode)
         {
             Vector2 currentCheckpoint = GameManager.Instance.CurrentCheckpoint;
 

@@ -12,7 +12,13 @@ public class LevelButton : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _levelText;
 
-    
+    [SerializeField]
+    private TextMeshProUGUI _bestScore;
+
+    [SerializeField]
+    private TextMeshProUGUI _flowers;
+
+
 
     public void OnClickPlay()
     {
@@ -25,8 +31,22 @@ public class LevelButton : MonoBehaviour
     
     public void Setup(int levelNum)
     {
+        LevelData levelData = GameManager.Instance.SaveManager.GameData.LevelData[levelNum];
+
         _level = "Level" + (levelNum + 1);
         _levelText.text = _level;
+        if (levelData == null)
+        {
+            _bestScore.text = "Best : 0 %";
+            _flowers.text = "Flowers : 0";
+        }
+        else
+        {
+            _bestScore.text = "Best : "+levelData.BestPercentage+" %";
+            _flowers.text = "Flowers : "+levelData.NumFlowers;
+        }
+
+       
     }
 
     public string Level

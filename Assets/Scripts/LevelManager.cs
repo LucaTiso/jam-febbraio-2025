@@ -29,15 +29,15 @@ public class LevelManager : MonoBehaviour
    
     private void Awake()
     {
-       // GameManager.Instance.LevelManager = this;
+        GameManager.Instance.LevelManager = this;
     }
 
     void Start()
     {
         _currentPercentage = 0;
-        _gameUi = FindAnyObjectByType<GameUi>();
+        _gameUi = GameManager.Instance.GameUi;
 
-        _playerController=FindObjectOfType<PlayerController>();
+        _playerController = GameManager.Instance.PlayerController;
 
 
         totalLength = endObj.position.x - _playerController.transform.position.x;
@@ -58,9 +58,12 @@ public class LevelManager : MonoBehaviour
 
             _currentPercentage = (currentDistance / totalLength) *100;
 
-              
+            if (!GameManager.Instance.PracticeMode)
+            {
+                _gameUi.UpdatePercentageText(_currentPercentage);
+            }
 
-               _gameUi.UpdatePercentageText(_currentPercentage);
+              
             }
 
         
@@ -92,7 +95,12 @@ public class LevelManager : MonoBehaviour
             }
 
             levelData.BestPercentage = 100;
-            levelData.NumFlowers = 0;
+
+            if (levelData.NumFlowers<_flowerNum)
+            {
+                levelData.NumFlowers = _flowerNum;
+            }
+
 
             gameData.LevelData[_levelNum - 1] = levelData;
 

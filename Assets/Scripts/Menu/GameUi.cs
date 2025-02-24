@@ -14,14 +14,12 @@ public class GameUi : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _flowerNumText;
 
-
     [SerializeField]
     private GameObject _endLevelPanel;
 
     private string _currentPercentageString;
 
     private LevelManager _levelManager;
-
 
     [SerializeField]
     private GameObject _deathPanel;
@@ -32,17 +30,33 @@ public class GameUi : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _deathPercentage;
 
+    [SerializeField]
+    private TextMeshProUGUI _endLevelTitle;
+
 
 
     private void Awake()
     {
-        //GameManager.Instance.GameUi = this;
+        GameManager.Instance.GameUi = this;
     }
 
     void Start()
     {
-        _currentPercentageString = "0 %";
-        _levelManager=FindAnyObjectByType<LevelManager>();
+        if (!GameManager.Instance.PracticeMode)
+        {
+            _currentPercentageString = "0 %";
+        }
+        else
+        {
+            _currentPercentageString = "PRACTICE MODE";
+            _currentPercentageText.fontSize = 16;
+            _currentPercentageText.transform.position = new Vector2(_currentPercentageText.transform.position.x+20, _currentPercentageText.transform.position.y);
+
+
+        }
+
+        _currentPercentageText.text = _currentPercentageString;
+        _levelManager =GameManager.Instance.LevelManager;
     }
 
 
@@ -50,11 +64,17 @@ public class GameUi : MonoBehaviour
     {
         _currentPercentageText.gameObject.SetActive(false);
 
-        int numFlowers = _levelManager.FlowerNum;
-
         if (!practiceMode)
         {
-            _flowerNumText.text = numFlowers.ToString();
+            int numFlowers = _levelManager.FlowerNum;
+            _flowerNumText.text = "Flowers : "+numFlowers.ToString(); 
+           
+            _endLevelTitle.text = "LEVEL COMLETE!";
+        }
+        else
+        {
+            _endLevelTitle.text = "PRACTICE COMLETE!";
+            _flowerNumText.gameObject.SetActive(false);
         }
 
         _endLevelPanel.SetActive(true);
@@ -97,11 +117,10 @@ public class GameUi : MonoBehaviour
         _currentPercentageText.gameObject.SetActive(false);
 
         _deathPanel.SetActive(true);
-        // unavailable in practice mode
+        
 
-        //_deathPercentage.text = "CURRENT : " + _currentPercentageString;
-
-       // _bestPercentage.text = "BEST : " + bestPercentage + " %";
+        _deathPercentage.gameObject.SetActive(false);
+        _bestPercentage.gameObject.SetActive(false);
 
     }
 
