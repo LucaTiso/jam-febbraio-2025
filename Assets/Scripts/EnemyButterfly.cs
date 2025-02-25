@@ -38,12 +38,7 @@ public class EnemyButterfly : MonoBehaviour
 
     private GameObject _player;
 
-    void Start()
-    {
-       
-    }
-    
-
+   
     void FixedUpdate()
     {
 
@@ -88,6 +83,8 @@ public class EnemyButterfly : MonoBehaviour
             gameObject.SetActive(false);
 
             //todo put in pool
+
+            // e poi non l'ho fatto
 
         }
 

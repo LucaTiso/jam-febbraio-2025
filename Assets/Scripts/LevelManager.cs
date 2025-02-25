@@ -130,8 +130,7 @@ public class LevelManager : MonoBehaviour
 
             GameData gameData = GameManager.Instance.SaveManager.GameData;
 
-            Debug.Log("Level index : " + (_levelNum - 1));
-
+        
             LevelData levelData = gameData.LevelData[_levelNum - 1];
 
 

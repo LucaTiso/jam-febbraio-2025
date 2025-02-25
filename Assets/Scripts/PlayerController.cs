@@ -12,21 +12,15 @@ public class PlayerController : MonoBehaviour
    
     private LevelManager _levelManager;
 
-    
     [SerializeField]
     private Rigidbody2D _rb;
-
-   
     private Vector2 _inputMovement;
-
 
     [SerializeField]
     private float speed=5;
 
     [SerializeField]
     private float _verticalAcceleration = 20f;
-
-    private float _verticalDeceleration = 10f;
 
     private float _maxVerticalSpeed = 20f;
 
@@ -148,6 +142,7 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
       
+        // non si può vedere sta roba
         
         if (collision.gameObject.tag=="Ground" || collision.gameObject.tag=="Enemy")
         {

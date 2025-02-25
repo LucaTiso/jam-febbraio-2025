@@ -5,8 +5,6 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class GroundMovement : MonoBehaviour
 {
-
-
     [SerializeField]
     private float _speed;
 
@@ -21,54 +19,47 @@ public class GroundMovement : MonoBehaviour
     private GameObject _player;
 
     [SerializeField]
-    private float _activationDelay;
-
-    [SerializeField]
     private float _deceleration;
 
-    void Start()
-    {
-        
-    }
+    private float _deactivationOffset = 10f;
+
 
     void FixedUpdate()
     {
 
-        if(_speed > 0 && _move)
+        if (_move)
         {
-            float currentMovement = _speed * Time.fixedDeltaTime;
+            if (_speed > 0)
+            {
+                float currentMovement = _speed * Time.fixedDeltaTime;
 
-            
-            Vector2 direction = transform.up;
 
-            _rb.MovePosition(_rb.position + direction * currentMovement);
+                Vector2 direction = transform.up;
 
-            _speed -= _deceleration * Time.fixedDeltaTime;
+                _rb.MovePosition(_rb.position + direction * currentMovement);
+
+                _speed -= _deceleration * Time.fixedDeltaTime;
+            }
+
+
+            if (_player.transform.position.x - transform.position.x > _deactivationOffset)
+            {
+                gameObject.SetActive(false);
+            }
         }
-
-
-        if (_player.transform.position.x - transform.position.x > 10f)
-        {
-            gameObject.SetActive(false);
-        }
+        
 
 
 
     }
 
-    public float ActivationDelay
-    {
-        get => _activationDelay;
-        set => _activationDelay = value;
-    }
-    public void Activate(GameObject player)
-    {
-        _player = player;
-        gameObject.SetActive(true);
-    }
-
-    public void StartMovement()
+    public void StartMovement(GameObject player)
     {
         _move = true;
+        _player = player;
     }
+
+  
+
+    
 }

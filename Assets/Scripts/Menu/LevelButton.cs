@@ -22,9 +22,7 @@ public class LevelButton : MonoBehaviour
 
     public void OnClickPlay()
     {
-        Debug.Log("cliccato play for Level: "+ _level);
 
-       
         SceneManager.LoadScene(_level);
     }
 

@@ -18,13 +18,15 @@ public class ButterflyCircleGroup : MonoBehaviour
 
     private GameObject _player;
 
+    private float _deactivationOffset = 10f;
+
 
     
     void FixedUpdate()
     {
         _rb.MoveRotation(_rb.rotation+ _rotationSpeed*Time.fixedDeltaTime);
 
-        if (_player.transform.position.x - transform.position.x > 15f)
+        if (_player.transform.position.x - transform.position.x > _deactivationOffset)
         {
             gameObject.SetActive(false);
         }

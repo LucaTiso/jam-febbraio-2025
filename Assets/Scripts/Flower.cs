@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Flower : MonoBehaviour
 {
-    
-
 
     private LevelManager _levelManager;
 

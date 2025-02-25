@@ -6,18 +6,10 @@ public class ButterflyCircleMovement : MonoBehaviour
 {
 
 
-   
 
     [SerializeField]
     private Rigidbody2D _rb;
 
-
-    void Start()
-    {
-        
-    }
-
-  
 
     public void Activate(float posX, float posY,float rotation) 
     {

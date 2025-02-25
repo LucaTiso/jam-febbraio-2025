@@ -12,8 +12,6 @@ public class CameraFollow : MonoBehaviour
     private float xOffset;
 
 
-   
-
     void FixedUpdate()
     {
         transform.position = new Vector3(player.position.x+xOffset, transform.position.y, transform.position.z);

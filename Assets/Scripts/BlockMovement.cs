@@ -24,14 +24,10 @@ public class BlockMovement : MonoBehaviour
     private GameObject _player;
 
     private bool _move=false;
+    private float _deactivationOffset = 10f;
 
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+ 
     void FixedUpdate()
     {
         if (_distance > 0 && _move)
@@ -52,7 +48,7 @@ public class BlockMovement : MonoBehaviour
             _rb.MovePosition(_rb.position + _direction * currentMovement);
         }
 
-        if (_player.transform.position.x - transform.position.x > 10f)
+        if (_player.transform.position.x - transform.position.x > _deactivationOffset)
         {
             gameObject.SetActive(false);
         }

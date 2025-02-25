@@ -33,6 +33,10 @@ public class GameUi : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _endLevelTitle;
 
+    private float _practiceModeFontSize=16f;
+
+    private float _practiceModeTextOffset = 20f;
+
 
 
     private void Awake()
@@ -49,8 +53,8 @@ public class GameUi : MonoBehaviour
         else
         {
             _currentPercentageString = "PRACTICE MODE";
-            _currentPercentageText.fontSize = 16;
-            _currentPercentageText.transform.position = new Vector2(_currentPercentageText.transform.position.x+20, _currentPercentageText.transform.position.y);
+            _currentPercentageText.fontSize = _practiceModeFontSize;
+            _currentPercentageText.transform.position = new Vector2(_currentPercentageText.transform.position.x+ _practiceModeTextOffset, _currentPercentageText.transform.position.y);
 
 
         }
@@ -89,13 +93,12 @@ public class GameUi : MonoBehaviour
 
     public void Restart()
     {
-        Debug.Log("restart");
         _levelManager.RestartLevel();
     }
 
     public void UpdatePercentageText(float percentage)
     {
-        _currentPercentageString = ((int)percentage).ToString()+" %";
+        _currentPercentageString = ((int)percentage)+" %";
         _currentPercentageText.text = _currentPercentageString;
     }
 

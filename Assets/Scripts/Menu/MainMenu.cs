@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-  
-
+ 
     [SerializeField]
     private List<LevelButton> _levelButtonList;
 
@@ -47,15 +46,9 @@ public class MainMenu : MonoBehaviour
         _practiceModeButton.image.color = Color.green;
     }
 
-
-
-
     public void OnCLickQuit()
     {
-        Debug.Log("cliccato quit");
         Application.Quit();
     }
-
-    
-  
+ 
 }
