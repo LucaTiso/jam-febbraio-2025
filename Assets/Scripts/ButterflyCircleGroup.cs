@@ -18,7 +18,7 @@ public class ButterflyCircleGroup : MonoBehaviour
 
     private GameObject _player;
 
-    private float _deactivationOffset = 10f;
+    private float _deactivationOffset = 20f;
 
 
     
